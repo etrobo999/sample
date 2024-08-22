@@ -6,9 +6,6 @@
 // 外部のグローバル変数を利用する
 extern Drive* gDrive;
 
-DoubleLoopScenario::DoubleLoopScenario() : sceneNo(1), isComplete(false) {
-}
-
 void DoubleLoopScenario::execute() {
     switch (sceneNo) {
         case 1:
@@ -35,16 +32,4 @@ void DoubleLoopScenario::execute() {
             std::cout << "Default case: No more scenes" << std::endl;
             break;
     }
-}
-
-void DoubleLoopScenario::update() {
-        sceneNo += 1;  // 次のシーンへ移行
-}
-
-void DoubleLoopScenario::markCompletion() {
-    isComplete = true;  // 完了フラグを設定
-}
-
-bool DoubleLoopScenario::checkCompletion() const {
-    return isComplete;  // シーンの完了フラグを返す
 }

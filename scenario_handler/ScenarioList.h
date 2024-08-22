@@ -8,7 +8,7 @@ class Scenario2;
 
 class ScenarioList {
 public:
-    ScenarioList(const Starter* starter,);
+    ScenarioList(const Starter* starter);
     void executeScenario();  // Execute the current scenario
     void incrementScenarioNo();  // Increment the current scenario number
     void markCompletion();  // 完了フラグを設定する関数
