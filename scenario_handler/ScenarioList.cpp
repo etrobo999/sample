@@ -1,9 +1,6 @@
 #include "ScenarioList.h"
 #include "DoubleLoopScenario.h"
-
-extern Starter* gStarter;
-
-ScenarioList::ScenarioList() : scenarioNo(0), scenarioComplete(false) {
+ScenarioList::ScenarioList(const Starter* starter) : scenarioNo(0), mStarter(starter), scenarioComplete(false) {
 }
 
 void ScenarioList::executeScenario() {

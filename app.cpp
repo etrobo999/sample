@@ -9,6 +9,7 @@
 #include "app.h"
 #include "RandomWalker.h"
 #include "ScenarioList.h"
+#include "Drive.h"
 
 // using宣言
 using ev3api::ColorSensor;
@@ -34,8 +35,8 @@ static LineTracer      *gLineTracer;
 static Scenario        *gScenario;
 static ScenarioTracer  *gScenarioTracer;
 static RandomWalker    *gRandomWalker;
-static ScenarioList       *gScenarioList;  // グローバル変数名に "g" を追加
-static Drive              *gDrive;
+static ScenarioList    *gScenarioList;  // グローバル変数名に "g" を追加
+static Drive           *gDrive;
 
 
 // scene object
@@ -70,7 +71,7 @@ static void user_system_create() {
                                         gStarter,
                                         gWalkerTimer);
     gDrive            = new Drive(gLeftWheel, gRightWheel);
-    gScenarioList     = new ScenarioList();  // ScenarioListのインスタンスを作成
+    gScenarioList     = new ScenarioList(gStarter);  // ScenarioListのインスタンスを作成
 
     // シナリオを構築する
     for (uint32_t i = 0; i < (sizeof(gScenes)/sizeof(gScenes[0])); i++) {
