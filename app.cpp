@@ -8,10 +8,7 @@
 
 #include "app.h"
 #include "RandomWalker.h"
-
-// デストラクタ問題の回避
-// https://github.com/ETrobocon/etroboEV3/wiki/problem_and_coping
-void *__dso_handle=0;
+#include "ScenarioList.h"
 
 // using宣言
 using ev3api::ColorSensor;
@@ -37,6 +34,9 @@ static LineTracer      *gLineTracer;
 static Scenario        *gScenario;
 static ScenarioTracer  *gScenarioTracer;
 static RandomWalker    *gRandomWalker;
+static ScenarioList       *gScenarioList;  // グローバル変数名に "g" を追加
+static Drive              *gDrive;
+
 
 // scene object
 static Scene gScenes[] = {
@@ -69,6 +69,8 @@ static void user_system_create() {
                                         gScenarioTracer,
                                         gStarter,
                                         gWalkerTimer);
+    gDrive            = new Drive(gLeftWheel, gRightWheel);
+    gScenarioList     = new ScenarioList();  // ScenarioListのインスタンスを作成
 
     // シナリオを構築する
     for (uint32_t i = 0; i < (sizeof(gScenes)/sizeof(gScenes[0])); i++) {
@@ -94,6 +96,8 @@ static void user_system_destroy() {
     delete gLineMonitor;
     delete gStarter;
     delete gWalker;
+    delete gDrive;
+    delete gScenarioList;  // "g" プレフィックスを付けた変数名を使用
 }
 
 /**
@@ -119,10 +123,10 @@ void main_task(intptr_t unused) {
  * ライントレースタスク
  */
 void tracer_task(intptr_t exinf) {
-    if (ev3_button_is_pressed(BACK_BUTTON)) {
-        wup_tsk(MAIN_TASK);  // バックボタン押下
+    if (gScenarioList->isCompleted()) {
+        wup_tsk(MAIN_TASK); 
     } else {
-        gRandomWalker->run();  // 走行
+        gScenarioList->executeScenario();  // 修正されたクラス名でメソッドを呼び出す
     }
 
     ext_tsk();
